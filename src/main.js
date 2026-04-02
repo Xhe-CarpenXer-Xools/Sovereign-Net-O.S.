@@ -349,9 +349,26 @@ app.whenReady().then(async () => {
   attachReplayBridge(kernel, ipcMain);
 
   // ── 5. Kubo side-effects (disconnect banned peers, apply BW limits) ────────
-  // NOTE: These effects are registered exclusively inside createIpcBridge()
-  // (called in step 3) to avoid double-registration. Do not add kernel.effect()
-  // calls for PEER_REP_EVENT or BW_SET_LIMITS here — they would fire twice.
+  kernel.effect('PEER_REP_EVENT', (result) => {
+    if (result.freshBan) {
+      httpPost(`${IPFS_API}/api/v0/swarm/disconnect?arg=/p2p/${result.peerId}`).catch(() => {});
+    }
+  });
+
+  kernel.effect('BW_SET_LIMITS', async (result) => {
+    try {
+      const limits = {
+        System: {
+          ...(result.upload   > 0 ? { StreamsOutbound: Math.floor(result.upload   / 1024) } : {}),
+          ...(result.download > 0 ? { StreamsInbound:  Math.floor(result.download / 1024) } : {}),
+        }
+      };
+      await httpPost(
+        `${IPFS_API}/api/v0/swarm/resourcemanager/limit?scope=system`,
+        JSON.stringify(limits)
+      );
+    } catch (_) { /* non-fatal on older Kubo */ }
+  });
 
   // ── 6. BW upload check (reads Kubo stats + kernel limits) ─────────────────
   ipcMain.handle('bw:checkUpload', async (_e, fileSizeBytes) => {

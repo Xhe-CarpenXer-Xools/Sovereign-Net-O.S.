@@ -532,51 +532,14 @@ function createIpcBridge(kernel, ipcMain, mainWindow) {
   });
 
   // ── Effects that push to renderer ────────────────────────────────────────
-
-  // Peer ban: disconnect from Kubo swarm + notify renderer
   kernel.effect("PEER_REP_EVENT", (result) => {
     if (result.freshBan) {
-      // Disconnect the banned peer from the Kubo swarm
-      const http = require('http');
-      const disconnectUrl = `http://127.0.0.1:5001/api/v0/swarm/disconnect?arg=/p2p/${result.peerId}`;
-      const req = http.request(new URL(disconnectUrl), { method: 'POST' }, (res) => res.resume());
-      req.on('error', () => {});
-      req.end();
-
       mainWindow?.webContents?.send("peer:banned", { peerId: result.peerId, score: result.score });
     }
   });
 
-  // BW limits: apply to Kubo ResourceManager + notify renderer
-  kernel.effect("BW_SET_LIMITS", async (result) => {
-    try {
-      const http = require('http');
-      const limits = {
-        System: {
-          ...(result.upload   > 0 ? { StreamsOutbound: Math.floor(result.upload   / 1024) } : {}),
-          ...(result.download > 0 ? { StreamsInbound:  Math.floor(result.download / 1024) } : {}),
-        }
-      };
-      const body = JSON.stringify(limits);
-      await new Promise((resolve) => {
-        const req = http.request({
-          hostname: '127.0.0.1', port: 5001,
-          path: '/api/v0/swarm/resourcemanager/limit?scope=system',
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Content-Length': Buffer.byteLength(body) }
-        }, (res) => { res.resume(); resolve(); });
-        req.on('error', resolve); // non-fatal on older Kubo
-        req.write(body);
-        req.end();
-      });
-    } catch (_) { /* non-fatal */ }
-
+  kernel.effect("BW_SET_LIMITS", (result) => {
     mainWindow?.webContents?.send("bw:limitsChanged", result);
-  });
-
-  // Forward all committed kernel events to the renderer for KernelClient cache invalidation
-  kernel.on((evt) => {
-    mainWindow?.webContents?.send('kernel:event', { type: evt.type, origin: evt.origin });
   });
 
   // ── Periodic decay (replaces raw setInterval mutating state) ─────────────

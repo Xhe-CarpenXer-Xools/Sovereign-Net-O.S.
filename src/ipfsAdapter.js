@@ -55,12 +55,6 @@
         STATE.handle = STATE.handle || peerId.slice(0, 12);
       }
 
-      // Dispatch through kernel — this fires the IDENTITY_SET effect in main.js
-      // which starts KernelSync. Must happen after STATE is patched so handle is set.
-      if (window.k) {
-        await window.k.identity.set(did, STATE?.handle || peerId.slice(0, 12), peerId);
-      }
-
       // Update UI elements that show our DID
       ['tbDID', 'idDid', 'profileDid'].forEach(id => {
         const el = document.getElementById(id);

@@ -76,19 +76,16 @@ class KernelSync {
    */
   start({ broadcastMs = 5_000, pollMs = 3_000 } = {}) {
     // Broadcast new local events on interval
-    this._broadcastInterval = setInterval(() => this._broadcastNewEvents(), broadcastMs);
+    setInterval(() => this._broadcastNewEvents(), broadcastMs);
 
     // Poll pubsub for incoming events
-    this._pollInterval = setInterval(() => this._pollPubsub(), pollMs);
+    setInterval(() => this._pollPubsub(), pollMs);
 
     console.log(`[kernel-sync] Started on topic: ${this.topic}`);
   }
 
   stop() {
-    clearInterval(this._broadcastInterval);
-    clearInterval(this._pollInterval);
-    this._broadcastInterval = null;
-    this._pollInterval      = null;
+    clearInterval(this._pollTimer);
   }
 
   // ──────────────────────────────────────────────────────────────────────────

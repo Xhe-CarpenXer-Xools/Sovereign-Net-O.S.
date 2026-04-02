@@ -167,26 +167,3 @@ contextBridge.exposeInMainWorld('bandwidth', {
   /** Listen for limit changes pushed from main (e.g. after setLimits resolves) */
   onLimitsChanged: (cb) => ipcRenderer.on('bw:limitsChanged', (_e, data) => cb(data)),
 });
-
-// ── Kernel Dispatch Bridge ─────────────────────────────────────────────────
-// Required by kernel-client.js (window.kernel).
-// Exposes the full kernel IPC surface: dispatch, query, snapshot, replay,
-// time-travel, verify, and sync — all routed through ipcRenderer.invoke().
-contextBridge.exposeInMainWorld('kernel', {
-  dispatch:   (event)                    => ipcRenderer.invoke('kernel:dispatch', event),
-  query:      (type, ...args)            => ipcRenderer.invoke('kernel:query', { type, args }),
-  snapshot:   ()                         => ipcRenderer.invoke('kernel:snapshot'),
-
-  // Replay / time-travel
-  replay:     (opts = {})                => ipcRenderer.invoke('kernel:replay', opts),
-  at:         (clockT)                   => ipcRenderer.invoke('kernel:at', { clockT }),
-  verify:     (stateKey, val, atClock)   => ipcRenderer.invoke('kernel:verify', { stateKey, expectedValue: val, atClock }),
-
-  // Sync
-  syncPull:    (peerId, sinceClock = 0)  => ipcRenderer.invoke('kernel:sync:pull', { peerId, sinceClock }),
-  syncReceive: (encoded)                 => ipcRenderer.invoke('kernel:sync:receive', { encoded }),
-  syncStatus:  ()                        => ipcRenderer.invoke('kernel:sync:status'),
-
-  // Push events from main → renderer (e.g., for cache invalidation)
-  onDispatch: (cb) => ipcRenderer.on('kernel:event', (_e, event) => cb(event)),
-});

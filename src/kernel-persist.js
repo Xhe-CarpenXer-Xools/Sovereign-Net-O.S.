@@ -225,7 +225,7 @@ class KernelPersist {
           if (entry.t <= snapClock) continue;
           // Re-dispatch through the kernel
           if (entry.type && !["DISPATCH_REJECTED","DISPATCH_FAILED","DISPATCH_THROTTLED","DISPATCH_UNKNOWN"].includes(entry.type)) {
-            this.kernel.dispatch({ type: entry.type, payload: entry.payload ?? {}, origin: "wal-replay" });
+            this.kernel.dispatch({ ...entry.payload, type: entry.type, origin: "wal-replay" });
             count++;
           }
         } catch (_) {}
