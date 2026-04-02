@@ -1,12 +1,182 @@
 # SOVEREIGN NET OS
 
-**A fully functional decentralized operating system — runs in your browser today, on real IPFS tomorrow.**
+# Sovereign NET OS v2.0
 
-`index.html` is not a demo. It is a **complete sovereign node**: P2P mesh networking, DAG-versioned code editor, end-to-end encrypted messaging, decentralized social feed, CID-addressed file storage, peer video streaming, drag-and-drop app builder, live network visualization, built-in security auditor, and a 30-command terminal — all in a single 287 KB file.
+**You are not the product. You are the root node.**
 
-Open it. You are the node.
+Sovereign NET OS is a browser-native, peer-to-peer operating system that redefines how identity, data, and applications work on the internet.
+
+It does not replace the internet.
+It changes who is in control within it.
 
 ---
+
+## 🌐 What This Is
+
+Sovereign NET OS is a **user-owned execution environment** that runs entirely in the browser and connects directly to other peers—without requiring centralized servers for identity, coordination, or data ownership.
+
+It provides:
+
+* **Self-sovereign identity** (cryptographic, user-controlled)
+* **Local-first data storage** (you hold your data)
+* **Peer-to-peer networking** (direct communication between users)
+* **Append-only logs** (verifiable, tamper-resistant history)
+* **Composable applications** (services that plug into *your* environment, not the other way around)
+
+---
+
+## ⚡ Core Principle
+
+> Companies can exist. Platforms can exist.
+> They just don’t get to own you.
+
+Sovereign NET OS separates **users from platforms at the root layer**:
+
+| Today’s Internet       | Sovereign NET OS    |
+| ---------------------- | ------------------- |
+| You log into apps      | Apps connect to you |
+| Platforms own identity | You own identity    |
+| Data is platform-bound | Data is portable    |
+| Lock-in is default     | Exit is trivial     |
+
+---
+
+## 🧠 Architecture Overview
+
+### 1. Identity Layer
+
+* Ed25519 keypairs generated client-side
+* No accounts, no email/passwords
+* Identity = cryptographic proof, not platform registration
+
+### 2. Data Layer
+
+* Append-only logs (hash-chained)
+* Local-first storage
+* Sync via peer gossip (eventual consistency)
+
+### 3. Network Layer
+
+* WebRTC-based peer-to-peer mesh
+* No required central servers
+* NAT traversal + peer discovery mechanisms
+
+### 4. Application Layer
+
+* Apps run in-browser
+* Apps request access to your data—not store it
+* Stateless relative to user identity
+
+---
+
+## 🔐 Security Model
+
+* **Zero-trust by default**
+* All data signed and verifiable
+* No implicit authority layers
+* Users control key custody
+
+> If you control the keys, you control the system.
+
+---
+
+## 🧩 What You Can Build
+
+* Messaging systems without centralized servers
+* Social networks without platform lock-in
+* Marketplaces without custodial intermediaries
+* Identity systems that persist across applications
+* Offline-first collaborative tools
+
+---
+
+## 🚧 What This Is Not
+
+* ❌ Not a blockchain (no global consensus required)
+* ❌ Not anti-company or anti-business
+* ❌ Not a replacement for all infrastructure
+* ❌ Not magic—tradeoffs still exist
+
+---
+
+## ⚠️ Current Challenges
+
+This system pushes against real-world constraints:
+
+* Browser limitations (storage, background execution)
+* P2P scalability and discovery
+* Key management for non-technical users
+* Data persistence across unreliable peers
+
+These are active areas of development—not ignored problems.
+
+---
+
+## 🔄 Why This Matters
+
+The current internet centralizes power by default:
+
+* Identity is rented
+* Data is trapped
+* Access is conditional
+
+Sovereign NET OS introduces a different default:
+
+> You exist independently of any platform.
+
+That single shift changes everything:
+
+* Competition increases
+* Lock-in weakens
+* Users regain leverage
+
+---
+
+## 🚀 Philosophy
+
+Sovereign NET OS is not about eliminating systems.
+It’s about removing **structural dependency**.
+
+You can still use:
+
+* Social platforms
+* Cloud services
+* Online marketplaces
+
+But you use them **without becoming them**.
+
+---
+
+## 🛠️ Status
+
+Experimental.
+Evolving.
+Provocative by design.
+
+This is a blueprint and a working direction—not a finished endpoint.
+
+---
+
+## 🤝 Contributing
+
+We are building toward:
+
+* Better peer discovery
+* Improved local-first data models
+* Usable key management
+* Interoperable application interfaces
+
+If you care about:
+
+* Decentralized systems
+* User sovereignty
+* Rethinking the internet stack
+
+You’re in the right place.
+
+---
+
+
 
 ## Contents
 
@@ -236,3 +406,15 @@ Output lands in `dist/`.
 > *You are not using the internet. You* are *the internet.*
 >
 > Built as a single `index.html` to prove it can be done.
+
+
+## 🧭 Final Thought
+
+The internet doesn’t need to be destroyed to be fixed.
+
+It just needs to stop owning the people who use it.
+
+Sovereign NET OS is one path toward that reality.
+
+
+---
